@@ -17,12 +17,14 @@ class Main extends Component {
   
   getData({type, value}) {
 
+    const error = {error: "this is not valid data"};
+
     const toJson = value =>{
       try {
         return JSON.parse(value);
       }
       catch(e) {
-        return {error: "this is not valid data"};
+        return error;
       }
     };
 
@@ -31,7 +33,7 @@ class Main extends Component {
         const xmlProps = {compact: true, spaces: 4};
         return toJson(xml2json(value, xmlProps));
       } catch(e) {
-        return {error: "this is not valid data"}
+        return error;
       }
     }
 
