@@ -109,10 +109,17 @@ class AmdbMain extends Component {
                                 dataField={fld}
                                 key={fld}
                                 columnClassName={()=>this.rowClassName({pk: colsPk[fld]})}
-                                dataFormat={(cell, row) => row.rowKey === PK ? 
+                                dataFormat={(cell, row) => {
+                                    let pk;
+                                    try {
+                                        pk = cell.pk;
+                                    } catch(e) {
+                                        pk = '';
+                                    }
+                                    return row.rowKey === PK ? 
                                      this.formatUP(cell, {tab: row.tab, pk: cell, fld: row[PK].fld})
-                                    : this.formatCol(cell, {...row, pk: cell.pk})
-                                }
+                                    : this.formatCol(cell, {...row, pk})
+                                }}
                                 dataSort
                                 heigth='10px'
                             >
