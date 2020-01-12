@@ -17,9 +17,9 @@ class Main extends Component {
   
   getData({type, value}) {
 
-    const error = {error: "this is not valid data"};
+    const error = {error: "Не удалось обработать данные"};
 
-    const toJson = value =>{
+    const toObj = value =>{
       try {
         return JSON.parse(value);
       }
@@ -31,13 +31,13 @@ class Main extends Component {
     const toXML = value => {
       try {
         const xmlProps = {compact: true, spaces: 4};
-        return toJson(xml2json(value, xmlProps));
+        return toObj(xml2json(value, xmlProps));
       } catch(e) {
         return error;
       }
     }
 
-    const data = type === 'json' ? toJson(value) : toXML(value);
+    const data = type === 'json' ? toObj(value) : toXML(value);
     this.setState({
         data,
         hasData: true,
@@ -57,15 +57,13 @@ class Main extends Component {
         {
           hasData ? 
           <PageContent header="Просмотр данных">
-              <AmdbMain data={data}/>
+              <AmdbMain data={data} />
           </PageContent>
           
           :
 
           <PageContent header="Открыть данные">
-              <OpenData 
-                  evtSubmit={this.getData}
-              />
+              <OpenData evtSubmit={this.getData} />
           </PageContent>
           
         }
