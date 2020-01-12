@@ -52,7 +52,7 @@ class Main extends Component {
     return (
       <div className="App">
         <Navbar bg="dark" variant="dark" expand="lg">
-          <Navbar.Brand>App</Navbar.Brand>
+          <Navbar.Brand>XML/JSON Tabel viewer</Navbar.Brand>
         </Navbar>
         {
           hasData ? 
@@ -67,8 +67,7 @@ class Main extends Component {
                   evtSubmit={this.getData}
               />
           </PageContent>
-
-              
+          
         }
       </div>
     );
