@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
 
 class OpenData extends Component {
 
@@ -13,7 +11,6 @@ class OpenData extends Component {
 
         event.preventDefault();
         event.stopPropagation();
-        
         const { formatType, data  } = event.target.elements;
         this.props.evtSubmit({
             type: formatType.value,
@@ -26,24 +23,27 @@ class OpenData extends Component {
     render() {
         return (
             <div>
-               <Form
+               <form
                   onSubmit={this.handleSubmit}
                >
-                  <Form.Group controlId="formatType">
-                    <Form.Label>Тип данных</Form.Label>
-                    <Form.Control as="select">
-                      <option value="json">json</option>
-                      <option value="xml">xml</option>
-                    </Form.Control>
-                  </Form.Group>
-                  <Form.Group controlId="data">
-                    <Form.Label>Данные</Form.Label>
-                    <Form.Control as="textarea" rows="3" />
-                  </Form.Group>
-                  <Button variant="primary" type="submit">
-                    Применить
-                  </Button>
-                </Form>
+                    <div className="form-group">
+                        <label for="formatType">Тип данных</label>
+                        <select className="form-control" id="formatType">
+                            <option value="xml">xml</option>
+                            <option value="json">json</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label for="data">Тип данных</label>
+                        <textarea 
+                            className="form-control"
+                            id="data"
+                        />
+                    </div>
+                    <button className="btn btn-primary" type="submit">
+                        Применить
+                    </button>
+                </form>
             </div>
         );
     }

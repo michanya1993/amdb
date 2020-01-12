@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
-import AmdbMain from './AmdbMain';
+import AmdbMain from './Amdb/AmdbMain';
 import OpenData from './OpenData';
 import PageContent from './PageContent';
 import { xml2json } from 'xml-js';
