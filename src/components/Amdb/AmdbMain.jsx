@@ -86,7 +86,7 @@ class AmdbMain extends Component {
             if( arr.length === 1) {
                return arr[0].val; 
             }
-            return false;
+            return true;
         }
 
         this.setState({
