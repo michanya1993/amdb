@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { data } from '../data';
 
 class OpenData extends Component {
 
@@ -29,8 +30,8 @@ class OpenData extends Component {
                     <div className="form-group">
                         <label for="formatType">Тип данных</label>
                         <select className="form-control" id="formatType">
-                            <option value="xml">xml</option>
                             <option value="json">json</option>
+                            <option value="xml">xml</option>
                         </select>
                     </div>
                     <div className="form-group">
@@ -38,6 +39,7 @@ class OpenData extends Component {
                         <textarea 
                             className="form-control"
                             id="data"
+                            value={data}
                         />
                     </div>
                     <button className="btn btn-primary" type="submit">

@@ -1,4 +1,5 @@
 import React from 'react';
+import { DELIMITER } from './amdb';
 
 export const options = {
     sizePerPage: 50,
@@ -26,9 +27,12 @@ export function formatCol (cell, row, callBack) {
         </div>
     ) : cell;
 }
+export function getPrnt(i) {
+    return i.split(DELIMITER).slice(0,-1).join(DELIMITER);
+}
 
 export function formatUP (row, callBack) {
-    const getPrnt = (i) => i.split('.').slice(0,-1).join('.');
+    
     return row.fld === "" ? '' : (
         <button
             className='btn btn-success btn-sm'

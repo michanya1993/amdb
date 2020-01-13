@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import * as amdb from './amdb';
@@ -7,6 +6,12 @@ import Breadcrumps from './Breadcrumps';
 import LinksTable from './LinksTable';
 import Navigation from './Navigation';
 import FieldsFilter from './FieldsFilter';
+import RollUp from './RollUp';
+
+const { 
+    DELIMITER,
+    ROOT,
+} = amdb;
 
 class AmdbMain extends Component {
     constructor(props) {
@@ -17,8 +22,9 @@ class AmdbMain extends Component {
         this.changeFilterVal = this.changeFilterVal.bind(this);
         this.tablePivot = this.tablePivot.bind(this);
         this.tableUnPivot = this.tableUnPivot.bind(this);
+        this.toRollUp = this.toRollUp.bind(this);
         this.state = {
-            activeTab: "->",
+            activeTab: ROOT,
             fk: "",
             showAllRows: true,
             pivot: false,
@@ -28,18 +34,28 @@ class AmdbMain extends Component {
             tabs: [],
 
             tabsFields: {},
+
+            data: {},
             
         };
     }
 
     componentWillMount(){
-        this.getDB(this.state.activeTab);
+        const { data } = this.props;
+        this.getDB(data, this.state.activeTab);
+        this.setState({
+            data,
+        });
+        
     }
 
-    getDB(activeTab) {
-        const { data } = this.props;
+    getDB(data, activeTab) {
+        
         const { showAllRows, tabsFields } = this.state;
         const db = amdb.toTables(data);
+        
+        //const db =amdb.toTables(amdb.rollUp(data, '->.friends'));
+
         const tabs = [...new Set(db.map(a=>a.tab))];
         let tabKeys = [];
         const tab = db
@@ -237,7 +253,8 @@ class AmdbMain extends Component {
             fk: "",
             showAllRows: true
         });
-        this.getDB(activeTab);
+        
+        this.getDB(this.state.data, activeTab);
     }
 
     changeActiveTable(activeTab, fk) {
@@ -245,7 +262,7 @@ class AmdbMain extends Component {
             activeTab,
             fk,
         });
-        this.getDB(activeTab);
+        this.getDB(this.state.data, activeTab);
     }
 
     changeFilterVal(newVal, filed, activeTab) {
@@ -259,6 +276,17 @@ class AmdbMain extends Component {
                 }))
             }
         });
+    }
+
+    toRollUp() {
+        const { activeTab } =this.state;
+        const active = tableProps.getPrnt(activeTab);
+        if(!active) return false;
+        const newData = amdb.rollUp(this.state.data, activeTab);
+        this.setState({
+            data: newData,
+        });
+        setTimeout(()=>this.changeTable(active),10);
     }
 
     render() {
@@ -280,7 +308,7 @@ class AmdbMain extends Component {
             <div>
             <b>Таблица: 
                 <Breadcrumps 
-                    path = {activeTab.split('.')}
+                    path = {activeTab.split(DELIMITER)}
                     changeTable={this.changeTable}
                 />
             </b>
@@ -313,6 +341,11 @@ class AmdbMain extends Component {
                     this.tableUnPivot(tab, displayFields, activeTab) 
                 }
             </div>
+            <p>
+                <RollUp
+                    toRollUp={this.toRollUp}
+                />
+            </p>
             <b>Все таблицы</b>
             <LinksTable 
                 tabs={tabs}
